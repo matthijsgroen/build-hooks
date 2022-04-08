@@ -1,0 +1,15 @@
+{
+  "name": "build-hooks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "parcel": "^2.4.1"
+  },
+  "alias": {
+    "matthijs": "./src/matthijs.ts"
+  },
+  "scripts": {
+    "start": "parcel src/index.html"
+  }
+}

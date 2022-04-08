@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2017"],
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "react": ["src/matthijs"],
+      "matthijs": ["src/matthijs"]
+    },
+    "jsxFactory": "m"
+  }
+}
