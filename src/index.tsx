@@ -1,4 +1,4 @@
-import { Component, createRoot, m, useState } from "matthijs";
+import { Component, createRoot, m, useCallback, useState } from "matthijs";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -36,12 +36,16 @@ const TodoList: Component = () => {
 export const App: Component = () => {
   const [counter, setCounter] = useState(0);
 
+  const clickHandler = useCallback(() => {
+    setCounter((c) => c + 1);
+  }, [setCounter]);
+
   return (
-    <div>
+    <div class={counter > 10 && counter < 13 ? "high" : undefined}>
       <MyText>
         Hello <strong>world!</strong> {counter}
       </MyText>
-      <MyButton onClick={() => setCounter((c) => c + 1)} label={"Click me!"} />
+      <MyButton onClick={clickHandler} label={"Click me!"} />
       <TodoList />
     </div>
   );
