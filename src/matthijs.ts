@@ -304,16 +304,3 @@ export const useCallback = <TCallback extends AnyFunction>(
   }
   return callbackRef.current;
 };
-
-export const useEvent = <TCallback extends AnyFunction>(
-  callback: TCallback
-): TCallback => {
-  const callbackRef = useRef(callback);
-
-  callbackRef.current = callback;
-
-  const stableRef = useRef(function () {
-    return callbackRef.current.apply(this, arguments);
-  });
-  return stableRef.current as TCallback;
-};

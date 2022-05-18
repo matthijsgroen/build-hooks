@@ -1,4 +1,4 @@
-import { Component, createRoot, m, useEvent, useState } from "matthijs";
+import { Component, createRoot, m, useCallback, useState } from "matthijs";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -16,9 +16,9 @@ const MyButton: Component<{ label: string; onClick: () => void }> = ({
 export const App: Component = () => {
   const [counter, setCounter] = useState(0);
 
-  const clickHandler = useEvent(() => {
+  const clickHandler = useCallback(() => {
     setCounter((c) => c + 1);
-  });
+  }, [setCounter]);
 
   return (
     <div class={counter > 10 && counter < 13 ? "high" : undefined}>
