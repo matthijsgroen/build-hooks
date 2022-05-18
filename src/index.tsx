@@ -1,4 +1,4 @@
-import { Component, createRoot, m, useCallback, useState } from "matthijs";
+import { Component, createRoot, m, useState } from "matthijs";
 
 const root = createRoot(document.getElementById("root"));
 
