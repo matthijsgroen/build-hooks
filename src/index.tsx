@@ -14,16 +14,14 @@ const MyButton: Component<{ label: string; onClick: () => void }> = ({
 );
 
 export const App: Component = () => {
-  const [counter, setCounter] = useState(0);
-
   const clickHandler = () => {
-    setCounter((c) => c + 1);
+    console.log("Click!");
   };
 
   return (
-    <div class={counter >= 10 && counter < 13 ? "high" : undefined}>
+    <div>
       <MyText>
-        Hello <strong>world!</strong> {counter}
+        Hello <strong>world!</strong>
       </MyText>
       <MyButton onClick={clickHandler} label={"Click me!"} />
     </div>

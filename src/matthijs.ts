@@ -109,18 +109,6 @@ export const createRoot = (root: HTMLElement): Renderer => {
     patch(root, element("root", {}, [result]));
   };
 
-  // Place a 'global' function (used by setState)
-  // to trigger a rerender
-
-  let timeout: ReturnType<typeof setTimeout>;
-  rerender = () => {
-    // Use clear timeout to trigger a single render if multiple 'rerenders' where triggered within 5ms
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      render(renderJsx);
-    }, 0);
-  };
-
   return {
     render,
   };
@@ -169,7 +157,6 @@ export type Component<Props extends {} = {}> = (
 
 let callIndex = 0;
 let refs = [];
-let rerender: () => void;
 let initialRender = true;
 
 /**
@@ -182,26 +169,4 @@ export const useRef = <T>(initialValue: T): { current: T } => {
     refs[callIndex] = { current: initialValue };
   }
   return refs[callIndex];
-};
-
-type SetState<T> = (t: T | ((previous: T) => T)) => void;
-
-/**
- * useState uses 'useRef' to keep track of its value and setter
- * when a new value is set, a 'rerender' call is triggered
- */
-export const useState = <T>(
-  initialState: T
-): [value: T, setValue: SetState<T>] => {
-  const getter = useRef(initialState);
-  const setter = useRef<SetState<T>>((newValue: T | ((previous: T) => T)) => {
-    if (typeof newValue === "function") {
-      getter.current = (newValue as (p: T) => T)(getter.current);
-    } else {
-      getter.current = newValue;
-    }
-    rerender();
-  });
-
-  return [getter.current, setter.current];
 };

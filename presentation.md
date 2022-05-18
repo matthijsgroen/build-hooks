@@ -48,9 +48,3 @@ marp: true
 2. Explain limitations of "our" implementation
 3. Build useRef
 4. Build useState (and trigger rerender)
-
----
-
-# 6. Dom Diffing / Reconciliation process
-
-1. Explain why (Speed, resets animations / transitions)
