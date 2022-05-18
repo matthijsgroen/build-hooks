@@ -68,16 +68,17 @@ const processChildNodes = (children: JSXChildNodes[]) =>
  * See the `tsconfig.json` for the JSX config
  */
 export const m = (
-  elem: string | Component,
+  tagOrComponent: string | Component,
   attributes: Record<string, any>,
   ...children: JSXChildNodes[]
 ): Producer => {
   // "Built-in" components, "div", "p"
-  if (typeof elem === "string") {
-    return () => element(elem, attributes, processChildNodes(children));
+  if (typeof tagOrComponent === "string") {
+    return () =>
+      element(tagOrComponent, attributes, processChildNodes(children));
   }
   // User created functional components
-  return (): VElement => elem({ ...attributes, children })();
+  return (): VElement => tagOrComponent({ ...attributes, children })();
 };
 
 export type Component<Props extends {} = {}> = (
