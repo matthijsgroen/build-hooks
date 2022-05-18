@@ -76,11 +76,3 @@ marp: true
 ---
 
 # 9. Styling
-
-> Aaand.... done!
-
----
-
-# Thank you!
-
-> Questions?
