@@ -19,15 +19,13 @@ type TodoItem = {
 };
 
 const TodoList: Component = () => {
-  const [todoItems, setTodoItems] = useState<TodoItem[]>([
-    { task: "task 1", done: false },
-  ]);
+  const [todoItems] = useState<TodoItem[]>([{ task: "task 1", done: false }]);
 
   return (
     <section>
       <h1>todos</h1>
       <ul>
-        {todoItems.map((item, index) => (
+        {todoItems.map((item) => (
           <li class={item.done && "completed"}>
             <label>{item.task}</label>
           </li>
