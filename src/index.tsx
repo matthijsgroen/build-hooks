@@ -13,28 +13,6 @@ const MyButton: Component<{ label: string; onClick: () => void }> = ({
   </button>
 );
 
-type TodoItem = {
-  task: string;
-  done: boolean;
-};
-
-const TodoList: Component = () => {
-  const [todoItems] = useState<TodoItem[]>([{ task: "task 1", done: false }]);
-
-  return (
-    <section>
-      <h1>todos</h1>
-      <ul>
-        {todoItems.map((item) => (
-          <li>
-            <label>{item.task}</label>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-};
-
 export const App: Component = () => {
   const [counter, setCounter] = useState(0);
 
@@ -48,7 +26,6 @@ export const App: Component = () => {
         Hello <strong>world!</strong> {counter}
       </MyText>
       <MyButton onClick={clickHandler} label={"Click me!"} />
-      <TodoList />
     </div>
   );
 };
