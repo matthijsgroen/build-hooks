@@ -94,8 +94,6 @@ export const createRoot = (root: HTMLElement): Renderer => {
 
     const result = contents();
 
-    // Update our 'global' initial render, so that the refs are kept.
-
     // reconciliation
     initialRender = false;
 
