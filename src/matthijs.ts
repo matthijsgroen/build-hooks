@@ -1,14 +1,14 @@
 type VAttributes = Record<string, unknown>;
 type VEvents = Record<string, EventListener>;
-type VChild = VNode | string | number;
-type VNode = {
+type VNode = VElement | string;
+type VElement = {
   tag: string;
   attributes: VAttributes;
   events: VEvents;
-  children: VChild[];
+  children: VNode[];
 };
 
-type Producer = () => VNode;
+type Producer = () => VElement;
 
 type Renderer = {
   render: (contents: Producer) => void;
@@ -16,13 +16,13 @@ type Renderer = {
 
 const element = (
   tag: string,
-  attributes: VAttributes,
-  children: VChild[]
-): VNode => {
+  props: VAttributes,
+  children: VNode[]
+): VElement => {
   const events: VEvents = {};
-  const attrs: VAttributes = {};
+  const attributes: VAttributes = {};
 
-  for (const [key, value] of Object.entries(attributes)) {
+  for (const [key, value] of Object.entries(props)) {
     if (key.startsWith("__")) {
       // hide internals
       continue;
@@ -34,25 +34,25 @@ const element = (
       }
       continue;
     }
-    if (value !== undefined) {
-      attrs[key] = `${value}`;
+    if (value === true) {
+      attributes[key] = key;
+    }
+    if (value !== undefined && value !== false) {
+      attributes[key] = `${value}`;
     }
   }
   return {
     tag,
-    attributes: attrs,
+    attributes,
     events,
     children,
   };
 };
 
-/**
- * Update an HTML element with children and attributes
- */
-const updateElement = (
+const patchAttributes = (
   element: HTMLElement,
-  node: VNode,
-  previousNode: VNode | undefined
+  node: VElement,
+  previousNode: VElement | undefined
 ) => {
   const removeAttributes = previousNode
     ? Object.keys(previousNode.attributes)
@@ -61,116 +61,134 @@ const updateElement = (
 
   for (const key of addAttributes) {
     element.setAttribute(key, `${node.attributes[key]}`);
+    if (key === "value" && element.nodeName === "INPUT") {
+      (element as HTMLInputElement).value = `${node.attributes[key]}`;
+    }
   }
   for (const key of removeAttributes) {
     if (addAttributes.includes(key)) continue;
     element.removeAttribute(key);
   }
+};
 
-  const addEvents = Object.keys(node.events);
+const patchEventListeners = (
+  element: HTMLElement,
+  node: VElement,
+  previousNode: VElement | undefined
+) => {
   const removeEvents = previousNode ? Object.keys(previousNode.events) : [];
+  const addEvents = Object.keys(node.events);
+
   for (const eventName of addEvents) {
     const listener = node.events[eventName];
     if (previousNode) {
       const prevListener = previousNode.events[eventName];
+
       if (prevListener !== listener) {
+        // Replace listener
         element.removeEventListener(eventName, prevListener);
         element.addEventListener(eventName, listener);
-      }
-    } else {
-      element.addEventListener(eventName, listener);
+      } // else: keep our current listener
+
+      continue;
     }
+
+    element.addEventListener(eventName, listener);
   }
   for (const eventName of removeEvents) {
     if (addEvents.includes(eventName)) continue;
     element.removeEventListener(eventName, previousNode.events[eventName]);
   }
+};
 
-  let offSet = 0;
+/**
+ * Update an HTML element with children and attributes
+ */
+const patch = (
+  element: HTMLElement,
+  node: VElement,
+  previousNode: VElement | undefined
+) => {
+  patchAttributes(element, node, previousNode);
+  patchEventListeners(element, node, previousNode);
+
+  const nodeChildren = node.children;
+  const prevNodeChildren = previousNode ? previousNode.children : [];
+  const domChildren = Array.from(element.childNodes);
+
   for (const childIndex in node.children) {
     const index = Number(childIndex);
-    const child = node.children[index];
-    const prevChild = previousNode ? previousNode.children[index] : undefined;
-    let domNode = Array.from(element.childNodes)[index + offSet];
-    if (
-      domNode &&
-      domNode.nodeType === Node.TEXT_NODE &&
-      index === 0 &&
-      domNode.textContent.trim() === ""
-    ) {
-      offSet += 1;
-      domNode = Array.from(element.childNodes)[index + offSet];
-    }
 
-    if (typeof child === "object" && "tag" in child) {
+    const child = nodeChildren[index];
+    const prevChild = prevNodeChildren[index];
+
+    let prevDomNode = domChildren[index];
+
+    if (typeof child === "string") {
+      if (prevDomNode && prevDomNode.nodeType === Node.TEXT_NODE) {
+        if (prevDomNode.textContent !== child) {
+          prevDomNode.textContent = child;
+        }
+      } else {
+        const textNode = document.createTextNode(child);
+        element.appendChild(textNode);
+      }
+    } else {
       let newNode: ChildNode;
 
       if (
-        !domNode ||
-        (domNode.nodeType === Node.ELEMENT_NODE &&
-          domNode.nodeName !== child.tag.toUpperCase())
+        !prevDomNode ||
+        (prevDomNode.nodeType === Node.ELEMENT_NODE &&
+          prevDomNode.nodeName !== child.tag.toUpperCase())
       ) {
         newNode = document.createElement(child.tag);
       } else {
-        newNode = domNode;
+        newNode = prevDomNode;
       }
 
-      updateElement(
+      patch(
         newNode as HTMLElement,
         child,
         typeof prevChild !== "object" ? undefined : prevChild
       );
-      if (domNode !== newNode) {
-        if (!domNode) {
+      if (prevDomNode !== newNode) {
+        if (!prevDomNode) {
           element.appendChild(newNode);
         } else {
-          element.replaceChild(newNode, domNode);
+          element.replaceChild(newNode, prevDomNode);
         }
-      }
-    } else {
-      const newText = `${child}`;
-      if (domNode && domNode.nodeType === Node.TEXT_NODE) {
-        if (domNode.textContent !== newText) {
-          domNode.textContent = `${child}`;
-        }
-      } else {
-        const textNode = document.createTextNode(newText);
-        element.appendChild(textNode);
       }
     }
   }
 };
 
 export const createRoot = (root: HTMLElement): Renderer => {
-  let previousRenderTree: VNode;
+  let previousRenderTree: VElement;
   let renderJsx: Producer;
 
-  Array.from(root.children).forEach((c) => root.removeChild(c));
+  // root.addEventListener(
+  //   "keypress",
+  //   (e) => {
+  //     e.preventDefault();
+  //   },
+  // );
+
+  Array.from(root.childNodes).forEach((c) => root.removeChild(c));
   const render = (contents: Producer) => {
     callIndex = 0;
     renderJsx = contents;
 
     const result = contents();
 
-    //renderElement(contents);
     // Update our 'global' initial render, so that the refs are kept.
+
+    // reconciliation
     initialRender = false;
 
-    // Clear the contents of our root element. (No DOM Diffing)
-    updateElement(
+    patch(
       root,
-      {
-        tag: "root",
-        attributes: {},
-        events: {},
-        children: [result],
-      },
-      {
-        tag: "root",
-        attributes: {},
-        events: {},
-        children: [previousRenderTree],
-      }
+      element("root", {}, [result]),
+      element("root", {}, [previousRenderTree])
     );
     previousRenderTree = result;
   };
@@ -203,7 +221,7 @@ const processChildNodes = (children: JSXChildNodes[]) =>
         typeof c === "function" ||
         typeof c === "number"
     )
-    .map<VChild>((c) => (typeof c === "function" ? c() : `${c}`));
+    .map<VNode>((c) => (typeof c === "function" ? c() : `${c}`));
 
 /**
  * `m` is our Pragma function. All JSX code will automatically trigger this function.
@@ -219,7 +237,7 @@ export const m = (
     return () => element(elem, attributes, processChildNodes(children));
   }
   // User created functional components
-  return (): VNode => elem({ ...attributes, children })();
+  return (): VElement => elem({ ...attributes, children })();
 };
 
 export type Component<Props extends {} = {}> = (

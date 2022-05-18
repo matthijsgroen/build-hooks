@@ -13,23 +13,86 @@ const MyButton: Component<{ label: string; onClick: () => void }> = ({
   </button>
 );
 
+type TodoItem = {
+  task: string;
+  done: boolean;
+};
+
 const TodoList: Component = () => {
-  const [todoItems, setTodoItems] = useState(["task 1", "task 2"]);
+  const [todoItems, setTodoItems] = useState<TodoItem[]>([
+    { task: "task 1", done: false },
+  ]);
+  const [newItem, setNewItem] = useState("");
+
+  const handleInput = useCallback(
+    (e: InputEvent) => {
+      setNewItem((e.currentTarget as HTMLInputElement).value);
+    },
+    [setNewItem]
+  );
+
+  const handleAdd = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key == "Enter") {
+        setTodoItems((c) => c.concat({ done: false, task: newItem }));
+        setNewItem("");
+      }
+    },
+    [setTodoItems, newItem, setNewItem]
+  );
+
+  const handleTodo = useCallback(
+    (e: InputEvent) => {
+      const todoItem = Number(
+        (e.currentTarget as HTMLInputElement).getAttribute("data-id")
+      );
+      const checked = (e.currentTarget as HTMLInputElement).checked;
+
+      setTodoItems((items) =>
+        items.map((e, i) => (i === todoItem ? { ...e, done: checked } : e))
+      );
+    },
+    [setTodoItems]
+  );
+  const itemsLeft = todoItems.filter((e) => !e.done).length;
 
   return (
-    <div>
-      <h2>Todo list</h2>
-      <ul>
-        {todoItems.map((item) => (
-          <li>{item}</li>
-        ))}
-      </ul>
-
-      <MyButton
-        onClick={() => setTodoItems((c) => c.concat(`Task ${c.length + 1}`))}
-        label={"Add todo item"}
-      />
-    </div>
+    <section class="todoapp">
+      <header class="header">
+        <h1>todos</h1>
+        <input
+          type="text"
+          value={newItem}
+          onInput={handleInput}
+          onKeydown={handleAdd}
+          placeholder="What needs to be done?"
+          class="new-todo"
+        />
+      </header>
+      <section class="main">
+        <ul class="todo-list">
+          {todoItems.map((item, index) => (
+            <li class={item.done && "completed"}>
+              <div class="view">
+                <input
+                  class="toggle"
+                  type="checkbox"
+                  checked={item.done}
+                  data-id={index}
+                  onClick={handleTodo}
+                />
+                <label>{item.task}</label>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <footer class="footer">
+        <span class="todo-count">
+          {itemsLeft === 1 ? "1 item left" : `${itemsLeft} items left`}
+        </span>
+      </footer>
+    </section>
   );
 };
 
