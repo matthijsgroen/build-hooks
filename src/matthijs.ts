@@ -89,14 +89,8 @@ const patch = (
     let prevDomNode = domChildren[index];
 
     if (typeof child === "string") {
-      if (prevDomNode && prevDomNode.nodeType === Node.TEXT_NODE) {
-        if (prevDomNode.textContent !== child) {
-          prevDomNode.textContent = child;
-        }
-      } else {
-        const textNode = document.createTextNode(child);
-        element.appendChild(textNode);
-      }
+      const textNode = document.createTextNode(child);
+      element.appendChild(textNode);
     } else {
       let newNode: ChildNode;
 
