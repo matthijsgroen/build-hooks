@@ -26,7 +26,7 @@ const TodoList: Component = () => {
       <h1>todos</h1>
       <ul>
         {todoItems.map((item) => (
-          <li class={item.done && "completed"}>
+          <li>
             <label>{item.task}</label>
           </li>
         ))}
