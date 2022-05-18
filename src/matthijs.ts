@@ -85,17 +85,10 @@ const patch = (element: HTMLElement, node: VElement) => {
 };
 
 export const createRoot = (root: HTMLElement): Renderer => {
-  let renderJsx: Producer;
-
   const render = (contents: Producer) => {
-    renderJsx = contents;
-
     const result = contents();
 
-    // Update our 'global' initial render, so that the refs are kept.
-
     // reconciliation
-
     Array.from(root.childNodes).forEach((c) => root.removeChild(c));
     patch(root, element("root", {}, [result]));
   };
