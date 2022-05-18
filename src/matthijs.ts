@@ -1,10 +1,8 @@
 type VAttributes = Record<string, unknown>;
-type VEvents = Record<string, EventListener>;
 type VNode = VElement | string;
 type VElement = {
   tag: string;
   attributes: VAttributes;
-  events: VEvents;
   children: VNode[];
 };
 
@@ -19,19 +17,11 @@ const element = (
   props: VAttributes,
   children: VNode[]
 ): VElement => {
-  const events: VEvents = {};
   const attributes: VAttributes = {};
 
   for (const [key, value] of Object.entries(props)) {
     if (key.startsWith("__")) {
       // hide internals
-      continue;
-    }
-    if (typeof value === "function") {
-      if (key.startsWith("on")) {
-        const eventName = key.slice(2).toLowerCase();
-        events[eventName] = value as EventListener;
-      }
       continue;
     }
     if (value === true) {
@@ -44,7 +34,6 @@ const element = (
   return {
     tag,
     attributes,
-    events,
     children,
   };
 };
@@ -57,20 +46,11 @@ const patchAttributes = (element: HTMLElement, node: VElement) => {
   }
 };
 
-const patchEventListeners = (element: HTMLElement, node: VElement) => {
-  const addEvents = Object.keys(node.events);
-
-  for (const eventName of addEvents) {
-    element.addEventListener(eventName, node.events[eventName]);
-  }
-};
-
 /**
  * Update an HTML element with children and attributes
  */
 const patch = (element: HTMLElement, node: VElement) => {
   patchAttributes(element, node);
-  patchEventListeners(element, node);
 
   for (const child of node.children) {
     if (typeof child === "string") {
