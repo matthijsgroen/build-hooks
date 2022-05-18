@@ -35,11 +35,3 @@ marp: true
 # 4. Event handling
 
 > Adding event handler to button
-
-1. Explain no rerender, because no state change
-
----
-
-# 5. Hooks
-
-> Setup of hooks
