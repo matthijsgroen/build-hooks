@@ -72,13 +72,7 @@ const patch = (element: HTMLElement, node: VElement) => {
   patchAttributes(element, node);
   patchEventListeners(element, node);
 
-  const nodeChildren = node.children;
-
-  for (const childIndex in node.children) {
-    const index = Number(childIndex);
-
-    const child = nodeChildren[index];
-
+  for (const child of node.children) {
     if (typeof child === "string") {
       const textNode = document.createTextNode(child);
       element.appendChild(textNode);
