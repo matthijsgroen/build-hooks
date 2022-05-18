@@ -68,70 +68,32 @@ const patchEventListeners = (element: HTMLElement, node: VElement) => {
 /**
  * Update an HTML element with children and attributes
  */
-const patch = (
-  element: HTMLElement,
-  node: VElement,
-  previousNode: VElement | undefined
-) => {
+const patch = (element: HTMLElement, node: VElement) => {
   patchAttributes(element, node);
   patchEventListeners(element, node);
 
   const nodeChildren = node.children;
-  const prevNodeChildren = previousNode ? previousNode.children : [];
-  const domChildren = Array.from(element.childNodes);
 
   for (const childIndex in node.children) {
     const index = Number(childIndex);
 
     const child = nodeChildren[index];
-    const prevChild = prevNodeChildren[index];
-
-    let prevDomNode = domChildren[index];
 
     if (typeof child === "string") {
       const textNode = document.createTextNode(child);
       element.appendChild(textNode);
     } else {
-      let newNode: ChildNode;
+      const newNode = document.createElement(child.tag);
 
-      if (
-        !prevDomNode ||
-        (prevDomNode.nodeType === Node.ELEMENT_NODE &&
-          prevDomNode.nodeName !== child.tag.toUpperCase())
-      ) {
-        newNode = document.createElement(child.tag);
-      } else {
-        newNode = prevDomNode;
-      }
-
-      patch(
-        newNode as HTMLElement,
-        child,
-        typeof prevChild !== "object" ? undefined : prevChild
-      );
-      if (prevDomNode !== newNode) {
-        if (!prevDomNode) {
-          element.appendChild(newNode);
-        } else {
-          element.replaceChild(newNode, prevDomNode);
-        }
-      }
+      patch(newNode as HTMLElement, child);
+      element.appendChild(newNode);
     }
   }
 };
 
 export const createRoot = (root: HTMLElement): Renderer => {
-  let previousRenderTree: VElement;
   let renderJsx: Producer;
 
-  // root.addEventListener(
-  //   "keypress",
-  //   (e) => {
-  //     e.preventDefault();
-  //   },
-  // );
-
-  Array.from(root.childNodes).forEach((c) => root.removeChild(c));
   const render = (contents: Producer) => {
     callIndex = 0;
     renderJsx = contents;
@@ -143,12 +105,8 @@ export const createRoot = (root: HTMLElement): Renderer => {
     // reconciliation
     initialRender = false;
 
-    patch(
-      root,
-      element("root", {}, [result]),
-      element("root", {}, [previousRenderTree])
-    );
-    previousRenderTree = result;
+    Array.from(root.childNodes).forEach((c) => root.removeChild(c));
+    patch(root, element("root", {}, [result]));
   };
 
   // Place a 'global' function (used by setState)
