@@ -2,11 +2,6 @@
   "compilerOptions": {
     "lib": ["dom", "es2019"], // we want to use .flat()
     "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "react": ["src/matthijs"],
-      "matthijs": ["src/matthijs"]
-    },
-    "jsxFactory": "m"
+    "baseUrl": "."
   }
 }
