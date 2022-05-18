@@ -74,10 +74,8 @@ const patch = (element: HTMLElement, node: VElement) => {
 
   const nodeChildren = node.children;
 
-  for (const childIndex in node.children) {
-    const index = Number(childIndex);
-
-    const child = nodeChildren[index];
+  for (const childIndex in nodeChildren) {
+    const child = nodeChildren[childIndex];
 
     if (typeof child === "string") {
       const textNode = document.createTextNode(child);
@@ -95,7 +93,6 @@ export const createRoot = (root: HTMLElement): Renderer => {
   let renderJsx: Producer;
 
   const render = (contents: Producer) => {
-    callIndex = 0;
     renderJsx = contents;
 
     const result = contents();
@@ -103,7 +100,6 @@ export const createRoot = (root: HTMLElement): Renderer => {
     // Update our 'global' initial render, so that the refs are kept.
 
     // reconciliation
-    initialRender = false;
 
     Array.from(root.childNodes).forEach((c) => root.removeChild(c));
     patch(root, element("root", {}, [result]));
@@ -147,26 +143,3 @@ export const m = (
 export type Component<Props extends {} = {}> = (
   p: Props & { children?: JSXChildNodes[] }
 ) => Producer;
-
-/**
- * This is where the hooks live.
- *
- * We keep a list of references as one big array.
- * every time a Ref is used, the pointer moves one place up.
- */
-
-let callIndex = 0;
-let refs = [];
-let initialRender = true;
-
-/**
- * useRef is our main hook. It gives a reference we can re-use in subsequent renders.
- */
-export const useRef = <T>(initialValue: T): { current: T } => {
-  callIndex++;
-  if (initialRender === true) {
-    // Set the value only on the initial render call
-    refs[callIndex] = { current: initialValue };
-  }
-  return refs[callIndex];
-};
