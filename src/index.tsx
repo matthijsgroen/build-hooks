@@ -1,4 +1,4 @@
-import { Component, createRoot, m, useCallback, useState } from "matthijs";
+import { Component, createRoot, m, useEvent, useState } from "matthijs";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -24,36 +24,27 @@ const TodoList: Component = () => {
   ]);
   const [newItem, setNewItem] = useState("");
 
-  const handleInput = useCallback(
-    (e: InputEvent) => {
-      setNewItem((e.currentTarget as HTMLInputElement).value);
-    },
-    [setNewItem]
-  );
+  const handleInput = useEvent((e: InputEvent) => {
+    setNewItem((e.currentTarget as HTMLInputElement).value);
+  });
 
-  const handleAdd = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key == "Enter") {
-        setTodoItems((c) => c.concat({ done: false, task: newItem }));
-        setNewItem("");
-      }
-    },
-    [setTodoItems, newItem, setNewItem]
-  );
+  const handleAdd = useEvent((e: KeyboardEvent) => {
+    if (e.key == "Enter") {
+      setTodoItems((c) => c.concat({ done: false, task: newItem }));
+      setNewItem("");
+    }
+  });
 
-  const handleTodo = useCallback(
-    (e: InputEvent) => {
-      const todoItem = Number(
-        (e.currentTarget as HTMLInputElement).getAttribute("data-id")
-      );
-      const checked = (e.currentTarget as HTMLInputElement).checked;
+  const handleTodo = useEvent((e: InputEvent) => {
+    const todoItem = Number(
+      (e.currentTarget as HTMLInputElement).getAttribute("data-id")
+    );
+    const checked = (e.currentTarget as HTMLInputElement).checked;
 
-      setTodoItems((items) =>
-        items.map((e, i) => (i === todoItem ? { ...e, done: checked } : e))
-      );
-    },
-    [setTodoItems]
-  );
+    setTodoItems((items) =>
+      items.map((e, i) => (i === todoItem ? { ...e, done: checked } : e))
+    );
+  });
   const itemsLeft = todoItems.filter((e) => !e.done).length;
 
   return (
@@ -99,9 +90,9 @@ const TodoList: Component = () => {
 export const App: Component = () => {
   const [counter, setCounter] = useState(0);
 
-  const clickHandler = useCallback(() => {
+  const clickHandler = useEvent(() => {
     setCounter((c) => c + 1);
-  }, [setCounter]);
+  });
 
   return (
     <div class={counter > 10 && counter < 13 ? "high" : undefined}>

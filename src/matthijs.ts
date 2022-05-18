@@ -290,7 +290,12 @@ export const useState = <T>(
   return [getter.current, setter.current];
 };
 
-export const useCallback = <T>(callback: T, deps: unknown[]): T => {
+type AnyFunction = (...args: any[]) => any;
+
+export const useCallback = <TCallback extends AnyFunction>(
+  callback: TCallback,
+  deps: unknown[]
+): TCallback => {
   const callbackRef = useRef(callback);
   const depsRef = useRef(deps);
   if (
@@ -301,4 +306,17 @@ export const useCallback = <T>(callback: T, deps: unknown[]): T => {
     depsRef.current = deps;
   }
   return callbackRef.current;
+};
+
+export const useEvent = <TCallback extends AnyFunction>(
+  callback: TCallback
+): TCallback => {
+  const callbackRef = useRef(callback);
+
+  callbackRef.current = callback;
+
+  const stableRef = useRef(function () {
+    return callbackRef.current.apply(this, arguments);
+  });
+  return stableRef.current as TCallback;
 };
