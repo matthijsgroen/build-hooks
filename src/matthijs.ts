@@ -61,9 +61,6 @@ const patchAttributes = (
 
   for (const key of addAttributes) {
     element.setAttribute(key, `${node.attributes[key]}`);
-    if (key === "value" && element.nodeName === "INPUT") {
-      (element as HTMLInputElement).value = `${node.attributes[key]}`;
-    }
   }
   for (const key of removeAttributes) {
     if (addAttributes.includes(key)) continue;

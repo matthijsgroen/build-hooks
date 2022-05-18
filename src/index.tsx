@@ -22,55 +22,17 @@ const TodoList: Component = () => {
   const [todoItems, setTodoItems] = useState<TodoItem[]>([
     { task: "task 1", done: false },
   ]);
-  const [newItem, setNewItem] = useState("");
-
-  const handleInput = useEvent((e: InputEvent) => {
-    setNewItem((e.currentTarget as HTMLInputElement).value);
-  });
-
-  const handleAdd = useEvent((e: KeyboardEvent) => {
-    if (e.key == "Enter") {
-      setTodoItems((c) => c.concat({ done: false, task: newItem }));
-      setNewItem("");
-    }
-  });
-
-  const handleTodo = useEvent((e: InputEvent) => {
-    const todoItem = Number(
-      (e.currentTarget as HTMLInputElement).getAttribute("data-id")
-    );
-    const checked = (e.currentTarget as HTMLInputElement).checked;
-
-    setTodoItems((items) =>
-      items.map((e, i) => (i === todoItem ? { ...e, done: checked } : e))
-    );
-  });
-  const itemsLeft = todoItems.filter((e) => !e.done).length;
 
   return (
     <section>
       <h1>todos</h1>
-      <input
-        type="text"
-        value={newItem}
-        onInput={handleInput}
-        onKeydown={handleAdd}
-        placeholder="What needs to be done?"
-      />
       <ul>
         {todoItems.map((item, index) => (
           <li class={item.done && "completed"}>
-            <input
-              type="checkbox"
-              checked={item.done}
-              data-id={index}
-              onClick={handleTodo}
-            />
             <label>{item.task}</label>
           </li>
         ))}
       </ul>
-      <span>{itemsLeft === 1 ? "1 item left" : `${itemsLeft} items left`}</span>
     </section>
   );
 };
