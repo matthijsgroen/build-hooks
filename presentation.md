@@ -55,10 +55,3 @@ marp: true
 
 1. Explain why (Speed, resets animations / transitions)
 2. Explain limitations of "our" implementation
-3. Build useCallback / useEvent
-
----
-
-# 7. Creating our TODO app
-
-1. Input element and its 'DOM' state

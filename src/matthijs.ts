@@ -286,21 +286,3 @@ export const useState = <T>(
 
   return [getter.current, setter.current];
 };
-
-type AnyFunction = (...args: any[]) => any;
-
-export const useCallback = <TCallback extends AnyFunction>(
-  callback: TCallback,
-  deps: unknown[]
-): TCallback => {
-  const callbackRef = useRef(callback);
-  const depsRef = useRef(deps);
-  if (
-    depsRef.current.length !== deps.length ||
-    depsRef.current.some((e, i) => e !== deps[i])
-  ) {
-    callbackRef.current = callback;
-    depsRef.current = deps;
-  }
-  return callbackRef.current;
-};

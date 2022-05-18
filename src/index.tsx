@@ -16,9 +16,9 @@ const MyButton: Component<{ label: string; onClick: () => void }> = ({
 export const App: Component = () => {
   const [counter, setCounter] = useState(0);
 
-  const clickHandler = useCallback(() => {
+  const clickHandler = () => {
     setCounter((c) => c + 1);
-  }, [setCounter]);
+  };
 
   return (
     <div class={counter > 10 && counter < 13 ? "high" : undefined}>
