@@ -43,8 +43,3 @@ marp: true
 # 5. Hooks
 
 > Setup of hooks
-
-1. Explain magic of 'useRef'
-2. Explain limitations of "our" implementation
-3. Build useRef
-4. Build useState (and trigger rerender)
