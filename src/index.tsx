@@ -48,8 +48,8 @@ const TodoList: Component = () => {
   const itemsLeft = todoItems.filter((e) => !e.done).length;
 
   return (
-    <section class="todoapp">
-      <header class="header">
+    <section>
+      <header>
         <h1>todos</h1>
         <input
           type="text"
@@ -57,16 +57,14 @@ const TodoList: Component = () => {
           onInput={handleInput}
           onKeydown={handleAdd}
           placeholder="What needs to be done?"
-          class="new-todo"
         />
       </header>
-      <section class="main">
-        <ul class="todo-list">
+      <section>
+        <ul>
           {todoItems.map((item, index) => (
             <li class={item.done && "completed"}>
-              <div class="view">
+              <div>
                 <input
-                  class="toggle"
                   type="checkbox"
                   checked={item.done}
                   data-id={index}
@@ -78,8 +76,8 @@ const TodoList: Component = () => {
           ))}
         </ul>
       </section>
-      <footer class="footer">
-        <span class="todo-count">
+      <footer>
+        <span>
           {itemsLeft === 1 ? "1 item left" : `${itemsLeft} items left`}
         </span>
       </footer>
