@@ -68,33 +68,11 @@ const patchAttributes = (
   }
 };
 
-const patchEventListeners = (
-  element: HTMLElement,
-  node: VElement,
-  previousNode: VElement | undefined
-) => {
-  const removeEvents = previousNode ? Object.keys(previousNode.events) : [];
+const patchEventListeners = (element: HTMLElement, node: VElement) => {
   const addEvents = Object.keys(node.events);
 
   for (const eventName of addEvents) {
-    const listener = node.events[eventName];
-    if (previousNode) {
-      const prevListener = previousNode.events[eventName];
-
-      if (prevListener !== listener) {
-        // Replace listener
-        element.removeEventListener(eventName, prevListener);
-        element.addEventListener(eventName, listener);
-      } // else: keep our current listener
-
-      continue;
-    }
-
-    element.addEventListener(eventName, listener);
-  }
-  for (const eventName of removeEvents) {
-    if (addEvents.includes(eventName)) continue;
-    element.removeEventListener(eventName, previousNode.events[eventName]);
+    element.addEventListener(eventName, node.events[eventName]);
   }
 };
 
@@ -107,7 +85,7 @@ const patch = (
   previousNode: VElement | undefined
 ) => {
   patchAttributes(element, node, previousNode);
-  patchEventListeners(element, node, previousNode);
+  patchEventListeners(element, node);
 
   const nodeChildren = node.children;
   const prevNodeChildren = previousNode ? previousNode.children : [];
