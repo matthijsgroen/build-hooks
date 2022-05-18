@@ -21,7 +21,7 @@ export const App: Component = () => {
   };
 
   return (
-    <div class={counter > 10 && counter < 13 ? "high" : undefined}>
+    <div class={counter >= 10 && counter < 13 ? "high" : undefined}>
       <MyText>
         Hello <strong>world!</strong> {counter}
       </MyText>

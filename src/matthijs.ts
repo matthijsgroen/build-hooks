@@ -49,22 +49,11 @@ const element = (
   };
 };
 
-const patchAttributes = (
-  element: HTMLElement,
-  node: VElement,
-  previousNode: VElement | undefined
-) => {
-  const removeAttributes = previousNode
-    ? Object.keys(previousNode.attributes)
-    : [];
+const patchAttributes = (element: HTMLElement, node: VElement) => {
   const addAttributes = Object.keys(node.attributes);
 
   for (const key of addAttributes) {
     element.setAttribute(key, `${node.attributes[key]}`);
-  }
-  for (const key of removeAttributes) {
-    if (addAttributes.includes(key)) continue;
-    element.removeAttribute(key);
   }
 };
 
@@ -84,7 +73,7 @@ const patch = (
   node: VElement,
   previousNode: VElement | undefined
 ) => {
-  patchAttributes(element, node, previousNode);
+  patchAttributes(element, node);
   patchEventListeners(element, node);
 
   const nodeChildren = node.children;
