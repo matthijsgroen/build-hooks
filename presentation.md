@@ -68,11 +68,3 @@ marp: true
 ---
 
 # 8. Redux, useEffect & useContext
-
-> And why we're not attaching our own redux to this implementation.
-
-> Yep, that's also why we are NOT refactoring
-
----
-
-# 9. Styling
