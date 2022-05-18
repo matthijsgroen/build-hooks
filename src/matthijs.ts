@@ -130,13 +130,6 @@ export const createRoot = (root: HTMLElement): Renderer => {
   let previousRenderTree: VElement;
   let renderJsx: Producer;
 
-  // root.addEventListener(
-  //   "keypress",
-  //   (e) => {
-  //     e.preventDefault();
-  //   },
-  // );
-
   Array.from(root.childNodes).forEach((c) => root.removeChild(c));
   const render = (contents: Producer) => {
     callIndex = 0;
@@ -145,10 +138,9 @@ export const createRoot = (root: HTMLElement): Renderer => {
     const result = contents();
 
     // Update our 'global' initial render, so that the refs are kept.
-
-    // reconciliation
     initialRender = false;
 
+    // reconciliation
     patch(
       root,
       element("root", {}, [result]),
