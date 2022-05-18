@@ -49,38 +49,28 @@ const TodoList: Component = () => {
 
   return (
     <section>
-      <header>
-        <h1>todos</h1>
-        <input
-          type="text"
-          value={newItem}
-          onInput={handleInput}
-          onKeydown={handleAdd}
-          placeholder="What needs to be done?"
-        />
-      </header>
-      <section>
-        <ul>
-          {todoItems.map((item, index) => (
-            <li class={item.done && "completed"}>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={item.done}
-                  data-id={index}
-                  onClick={handleTodo}
-                />
-                <label>{item.task}</label>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-      <footer>
-        <span>
-          {itemsLeft === 1 ? "1 item left" : `${itemsLeft} items left`}
-        </span>
-      </footer>
+      <h1>todos</h1>
+      <input
+        type="text"
+        value={newItem}
+        onInput={handleInput}
+        onKeydown={handleAdd}
+        placeholder="What needs to be done?"
+      />
+      <ul>
+        {todoItems.map((item, index) => (
+          <li class={item.done && "completed"}>
+            <input
+              type="checkbox"
+              checked={item.done}
+              data-id={index}
+              onClick={handleTodo}
+            />
+            <label>{item.task}</label>
+          </li>
+        ))}
+      </ul>
+      <span>{itemsLeft === 1 ? "1 item left" : `${itemsLeft} items left`}</span>
     </section>
   );
 };
