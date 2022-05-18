@@ -54,4 +54,3 @@ marp: true
 # 6. Dom Diffing / Reconciliation process
 
 1. Explain why (Speed, resets animations / transitions)
-2. Explain limitations of "our" implementation
