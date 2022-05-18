@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "slides": [
+    {
+      "name": "project-setup",
+      "commit": "60a3e68966bb23ca87dfcee0d40ee5850ef07c5a"
+    },
+    {
+      "name": "setup-jsx",
+      "commit": "5caf5992cfb26356400c3e086a65526192947129"
+    },
+    { "name": "vdom", "commit": "bcee34b00755679fe3f1bb0dfcef164452f4f0b6" },
+    {
+      "name": "functional-components",
+      "commit": "7d0c6cc0c684445274773eabec9cb860ec83ef60"
+    },
+    {
+      "name": "reconsilliation",
+      "commit": "5ae52048f852e390552f89859805bd12897ad7e4"
+    },
+    {
+      "name": "support-event-listeners",
+      "commit": "ca863b006eaa5768261c653b61aa7e30095e6ca2"
+    },
+    { "name": "hooks", "commit": "9539954a406fd144a1c2726b5d49c9b1bac812f6" },
+    {
+      "name": "use-state",
+      "commit": "1ca0770eba750bff52a920c7a19e081ed1e1d7cf"
+    },
+    {
+      "name": "patch-tags",
+      "commit": "6cc7d48c0e8c0654a353f0967e96ae011416ac77"
+    },
+    {
+      "name": "patch-text-nodes",
+      "commit": "e236a169a5d20f26a9bf86b7b2d3332ec7b6b4d2"
+    },
+    {
+      "name": "patch-attributes",
+      "commit": "f65342561a600b02e80df446752a2dcb7589eda5"
+    },
+    {
+      "name": "patch-event-listeners",
+      "commit": "be29e560e05004b59307d4ba454e79141e0f50de"
+    },
+    {
+      "name": "use-callback",
+      "commit": "34e8c7ba226a67023c5d2ad17ae1f5e3ebf39d69"
+    },
+    {
+      "name": "use-event",
+      "commit": "b8a21357d139a89aa1228831397ffc99e58de4d9"
+    },
+    {
+      "name": "start-todo",
+      "commit": "fc384a168d97e801d838eee408247f86bdda1f7d"
+    },
+    {
+      "name": "controlled-inputs",
+      "commit": "c9b7f8eabc95254c89f4a0e9c10de78d75f0c18e"
+    },
+    {
+      "name": "working-app",
+      "commit": "f3cc815963458daafb4fbee849f3b66f24042068"
+    },
+    {
+      "name": "useEffect-useContext",
+      "commit": "1c27b932bc7e3b4306411b85a71da5200fbb694c"
+    },
+    {
+      "name": "add-tag-structure",
+      "commit": "3a510d49f87e912dae716e9f79ab988929c899eb"
+    },
+    {
+      "name": "add-classes",
+      "commit": "ed0295b2cf6b7d70b807a949406cc3e510d6dd0a"
+    },
+    {
+      "name": "end-result",
+      "commit": "0a65e9e6657b1d800df0f122a95c4d1aa2f572b0"
+    }
+  ]
+}
