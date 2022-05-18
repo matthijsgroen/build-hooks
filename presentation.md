@@ -62,9 +62,3 @@ marp: true
 # 7. Creating our TODO app
 
 1. Input element and its 'DOM' state
-   > Why does the clearing not work?
-2. Event delegation in React / Synthetic events
-
----
-
-# 8. Redux, useEffect & useContext
