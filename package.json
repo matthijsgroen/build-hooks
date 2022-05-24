@@ -1,11 +1,5 @@
 {
   "name": "build-hooks",
   "version": "1.0.0",
-  "license": "MIT",
-  "devDependencies": {
-    "parcel": "^2.4.1"
-  },
-  "scripts": {
-    "start": "parcel src/index.html"
-  }
+  "license": "MIT"
 }
