@@ -2,6 +2,10 @@
   "version": "1.0.0",
   "slides": [
     {
+      "name": "redux",
+      "commit": "2534ae071d4eb02310da86af2af135de2aa826d3"
+    },
+    {
       "name": "project-setup",
       "commit": "fa9c09951b1561132debdf9e1dee05cf605fefbb"
     },
