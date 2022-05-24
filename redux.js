@@ -33,8 +33,10 @@ const reducer = (state, action) => {
 
 const store = createStore(reducer);
 
+const unsubscribe = store.subscribe(() => {
+  console.log(store.getState());
+});
+
 console.log(store.getState());
 
 store.dispatch({ type: UPDATE_FIRSTNAME, payload: "Hiddo" });
-
-console.log(store.getState());
