@@ -3,7 +3,23 @@
   "slides": [
     {
       "name": "redux",
-      "commit": "2534ae071d4eb02310da86af2af135de2aa826d3"
+      "commit": "64cec6a37f1164a396152a548d309b635825fdf2"
+    },
+    {
+      "name": "combineReducer",
+      "commit": "c113df1e78622a4f7f153f531ab804c5acf586ba"
+    },
+    {
+      "name": "handle actions",
+      "commit": "7bea8cd03d2f6b71b50aa38e7432790a93416d68"
+    },
+    {
+      "name": "listeners",
+      "commit": "9f43cb8756b75753505baca3bee8095404f7511d"
+    },
+    {
+      "name": "combine-reducers",
+      "commit": "d2a248a48874227b358a071df77982a8e60c2a8d"
     },
     {
       "name": "project-setup",
@@ -13,7 +29,10 @@
       "name": "setup-jsx",
       "commit": "5caf5992cfb26356400c3e086a65526192947129"
     },
-    { "name": "vdom", "commit": "bcee34b00755679fe3f1bb0dfcef164452f4f0b6" },
+    {
+      "name": "vdom",
+      "commit": "bcee34b00755679fe3f1bb0dfcef164452f4f0b6"
+    },
     {
       "name": "functional-components",
       "commit": "7d0c6cc0c684445274773eabec9cb860ec83ef60"
@@ -26,7 +45,10 @@
       "name": "support-event-listeners",
       "commit": "ca863b006eaa5768261c653b61aa7e30095e6ca2"
     },
-    { "name": "hooks", "commit": "9539954a406fd144a1c2726b5d49c9b1bac812f6" },
+    {
+      "name": "hooks",
+      "commit": "9539954a406fd144a1c2726b5d49c9b1bac812f6"
+    },
     {
       "name": "use-state",
       "commit": "1ca0770eba750bff52a920c7a19e081ed1e1d7cf"
