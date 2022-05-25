@@ -20,21 +20,6 @@ const createStore = (reducer, initialState) => {
   };
 };
 
-const UPDATE_FIRSTNAME = "updateFirstname";
-
-const reducer = (state, action) => {
-  if (action.type === "__INIT") {
-    return { firstName: "Matthijs", lastName: "Groen" };
-  }
-  if (action.type === UPDATE_FIRSTNAME) {
-    return { ...state, firstName: action.payload };
-  }
+module.exports = {
+  createStore,
 };
-
-const store = createStore(reducer);
-
-console.log(store.getState());
-
-store.dispatch({ type: UPDATE_FIRSTNAME, payload: "Hiddo" });
-
-console.log(store.getState());
