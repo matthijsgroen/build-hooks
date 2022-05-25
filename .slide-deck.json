@@ -3,23 +3,23 @@
   "slides": [
     {
       "name": "redux",
-      "commit": "64cec6a37f1164a396152a548d309b635825fdf2"
+      "commit": "fd826db5cbe1bccf36d61b6b6f4992234ecd6570"
     },
     {
-      "name": "combineReducer",
-      "commit": "c113df1e78622a4f7f153f531ab804c5acf586ba"
+      "name": "state",
+      "commit": "8c7f04a765934291e3fbdce557fb86064fc8a9fd"
     },
     {
-      "name": "handle-actions",
-      "commit": "7bea8cd03d2f6b71b50aa38e7432790a93416d68"
+      "name": "dispatch",
+      "commit": "876c3af37deefeaf959ea045465710c17203a1e5"
     },
     {
       "name": "listeners",
-      "commit": "9f43cb8756b75753505baca3bee8095404f7511d"
+      "commit": "d747a4e7f23339fecc615bb8ac6504c05f5cf31b"
     },
     {
       "name": "combine-reducers",
-      "commit": "d2a248a48874227b358a071df77982a8e60c2a8d"
+      "commit": "2611e65319f8046a5db4cabac165bc65805a37e3"
     },
     {
       "name": "project-setup",
