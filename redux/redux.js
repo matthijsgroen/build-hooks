@@ -20,12 +20,6 @@ const createStore = (reducer, initialState) => {
   };
 };
 
-const reducer = (state, action) => {
-  if (action.type === "__INIT") {
-    return { firstName: "Matthijs", lastName: "Groen" };
-  }
+module.exports = {
+  createStore,
 };
-
-const store = createStore(reducer);
-
-console.log(store.getState());
