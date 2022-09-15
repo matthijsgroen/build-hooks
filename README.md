@@ -17,8 +17,12 @@ Topics covered:
   - Reconciliation (Dom Diffing)
   - Hooks (useRef, useState, useCallback, useEvent)
   - Controlled Inputs
-  - ~~useEffect, useContext~~~
+  - ~useEffect, useContext~
   - Creating a TodoMVC App
+
+# Concept
+
+This repo works as a slideshow. By using the commands from `git-slide-deck` (see section: "How To Run") the codebase will be checked out in a different state for each slide. So your local codebase is a slide, which you can inspect, run or experiment with, until you go to the next slide.
 
 # How to run
 
